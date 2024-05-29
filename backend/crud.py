@@ -10,8 +10,16 @@ def type_check_helper(movie):
         movie["title"] = str(movie["title"])
 
 
-async def get_movies(limit: int = 100) -> list[Movie]:
-    cursor = db.movies.find()
+async def get_movies(search_query: str|None = None, limit: int = 100) -> list[Movie]:
+    query = {}
+    if search_query:
+        query = {
+            "$or": [
+                {"title": {"$regex": search_query, "$options": "i"}},
+                {"genre": {"$regex": search_query, "$options": "i"}},
+                {"year": {"$regex": search_query, "$options": "i"}}
+            ]}
+    cursor = db.movies.find(query)
     movies = await cursor.to_list(limit)
     result = []
     for movie in movies:

@@ -11,8 +11,8 @@ async def root():
     return {"Hello": "Please use the /movies endpoint for CRUD"}
 
 @app.get("/movies", response_model=list[Movie])
-async def get_movies(limit: int = 100):
-    return await crud.get_movies(limit)
+async def get_movies(search_query: str|None = None, limit: int = 100):
+    return await crud.get_movies(search_query, limit)
 
 @app.get("/movies/{movie_id}", response_model=Movie)
 async def get_movie_by_id(movie_id: int):
