@@ -1,0 +1,25 @@
+.card-container{
+    width: 80vw;
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    border: 5px;
+}
+
+/* .movie{
+    min-width: 100px;
+    width: 12vw;
+    height: 28vh;
+    margin: 0rem;
+
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+} */
+
+.app-container{
+    display: flex;
+    justify-content: center;
+}
