@@ -48,10 +48,10 @@ async def update_movie(movie_id: int, movie: Movie) -> Movie:
     movie_to_db["_id"] = ObjectId(movie.id)
     
     update_movie = await db.movies.update_one({"movie": movie_id}, {"$set": movie_to_db})
-    if update_movie.modified_count == 1:
+    if update_movie.modified_count >= 1:
         updated_movie = await db.movies.find_one({"movie": movie_id})
         return Movie(id=str(updated_movie["_id"]), **updated_movie)
-    raise HTTPException(status_code=404, detail="Movie not found")
+    raise HTTPException(status_code=404, detail="Movie not modified or not found")
 
 async def delete_movie(movie_id: int):
     deleting_movie = await db.movies.find_one({"movie": movie_id})
