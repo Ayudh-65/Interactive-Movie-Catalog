@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from bson import ObjectId
 
 from database import db
 from schemas import Movie, MovieCreate
@@ -42,7 +43,11 @@ async def create_movie(movie: MovieCreate) -> Movie:
     raise HTTPException(status_code=400, detail="Failed to create movie")
 
 async def update_movie(movie_id: int, movie: Movie) -> Movie:
-    update_movie = await db.movies.update_one({"movie": movie_id}, {"$set": movie.model_dump()})
+    movie_to_db = movie.model_dump()
+    movie_to_db.pop("id")
+    movie_to_db["_id"] = ObjectId(movie.id)
+    
+    update_movie = await db.movies.update_one({"movie": movie_id}, {"$set": movie_to_db})
     if update_movie.modified_count == 1:
         updated_movie = await db.movies.find_one({"movie": movie_id})
         return Movie(id=str(updated_movie["_id"]), **updated_movie)

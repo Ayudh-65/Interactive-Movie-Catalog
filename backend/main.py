@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import crud
 from schemas import Movie, MovieCreate
-from database import db
 
 app = FastAPI()
 
@@ -32,7 +31,7 @@ async def create_movie(movie: MovieCreate):
     return await crud.create_movie(movie)
 
 @app.put("/movies/{movie_id}", response_model=Movie, response_description=f"Movie updated successfully")
-async def update_movie(movie_id: int, movie: MovieCreate):
+async def update_movie(movie_id: int, movie: Movie):
     return await crud.update_movie(movie_id, movie)
 
 @app.delete("/movies/{movie_id}", response_description="Movie deleted successfully")
