@@ -2,10 +2,10 @@
 import MovieCard from "./CardComponent";
 import { Button } from "@mui/material";
 
-export default function CardContainer({ movies, handleMovieUpdate, handleMovieDelete }) {
+export default function CardContainer({ movies, handleMovieUpdate, handleMovieDelete, handleMovieAdd}) {
   return (
     <div>
-      <Button variant='contained' sx={{marginTop: 5, marginLeft: 15}}>➕ Add New </Button>
+      <Button variant='contained' sx={{marginTop: 5, marginLeft: 15}} onClick={() => {handleMovieAdd()}} >➕ Add New </Button>
       <div className="card-container">
         {movies.map((movie) => (<MovieCard movie={movie} key={movie.movie} handleMovieUpdate={handleMovieUpdate} handleMovieDelete={handleMovieDelete} />))}
       </div>

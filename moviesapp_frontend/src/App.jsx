@@ -79,6 +79,18 @@ export default function App() {
     });
   }
 
+  const handleMovieAdd = () => {
+    setMovies([{
+        "movie": "Unique Movie ID?",
+        "title": "Movie Title?",
+        "genres": "Genre?",
+        "year": "Year?",
+        "Rating": "Rating?",
+        "RottenTomato": "RottenTomato?"
+    }, ...movies])
+    console.log(movies);
+}
+
   useEffect(() => {
     getMovies();
   }, []);
@@ -88,7 +100,7 @@ export default function App() {
   return (
     <div className="app-container">
       <SearchBar handleSearch={handleSearch} />
-      {route == "/card" ? <CardContainer movies = {movies} handleMovieUpdate={handleMovieUpdate} handleMovieDelete={handleMovieDelete} /> : (route == "/" ? <MoviesTable movies = {movies} handleMovieUpdate={handleMovieUpdate} handleMovieDelete={handleMovieDelete} /> : <ErrorPage />)}
+      {route == "/card" ? <CardContainer movies = {movies} handleMovieUpdate={handleMovieUpdate} handleMovieDelete={handleMovieDelete} handleMovieAdd={handleMovieAdd} /> : (route == "/" ? <MoviesTable movies = {movies} handleMovieUpdate={handleMovieUpdate} handleMovieDelete={handleMovieDelete} handleMovieAdd={handleMovieAdd} /> : <ErrorPage />)}
     </div>
   )
 }

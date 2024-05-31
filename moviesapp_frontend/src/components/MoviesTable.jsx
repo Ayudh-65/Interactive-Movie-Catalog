@@ -56,20 +56,7 @@ function MovieTableRow({ movie, handleMovieUpdate, handleMovieDelete }) {
     )
 }
 
-export default function MoviesTable({ movies, handleMovieUpdate, handleMovieDelete }) {
-
-    const handleMovieAdd = () => {
-        movies = [{
-            "movie": "Enter Movie id",
-            "title": "Enter Name",
-            "genres": "Comedy",
-            "year": -1980,
-            "Rating": 1,
-            "RottenTomato": 54,
-            "id": "66562dc5a521f80c455032ba"
-        }, ...movies];
-        console.log(movies);
-    }
+export default function MoviesTable({ movies, handleMovieUpdate, handleMovieDelete, handleMovieAdd }) {
 
   return (
     <TableContainer component={Paper} sx={{ width: "100%", height: "100%" }}>
