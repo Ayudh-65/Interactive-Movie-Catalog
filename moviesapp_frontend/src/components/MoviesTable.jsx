@@ -74,7 +74,7 @@ export default function MoviesTable({ movies, handleMovieUpdate, handleMovieDele
   return (
     <TableContainer component={Paper} sx={{ width: "100%", height: "100%" }}>
         <Button variant='contained' onClick={() => {handleMovieAdd()}}>➕ Add New </Button>
-      <Table stickyHeader aria-label="simple table">
+      <Table sx={{marginTop: 3}} stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell sx={{width: "8%"}}>MovieID</TableCell>

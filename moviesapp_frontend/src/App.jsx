@@ -4,6 +4,7 @@ import axios from "axios";
 import CardContainer from "./components/CardContainer"
 import ErrorPage from "./components/ErrorPage"
 import MoviesTable from "./components/MoviesTable";
+import SearchBar from "./components/SearchBar";
 
 const API_ENDPOINT = "http://127.0.0.1:8000/movies/"
 
@@ -15,6 +16,23 @@ export default function App() {
     await axios
       .get(API_ENDPOINT, {
         params: {
+          limit: 20,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.length >= 1) setMovies(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const handleSearch = async (searchQuery) => {
+    await axios
+      .get(API_ENDPOINT, {
+        params: {
+          search_query: searchQuery,
           limit: 20,
         },
       })
@@ -69,6 +87,7 @@ export default function App() {
 
   return (
     <div className="app-container">
+      <SearchBar handleSearch={handleSearch} />
       {route == "/card" ? <CardContainer movies = {movies} handleMovieUpdate={handleMovieUpdate} handleMovieDelete={handleMovieDelete} /> : (route == "/" ? <MoviesTable movies = {movies} handleMovieUpdate={handleMovieUpdate} handleMovieDelete={handleMovieDelete} /> : <ErrorPage />)}
     </div>
   )
