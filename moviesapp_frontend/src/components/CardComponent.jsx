@@ -4,35 +4,65 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { TextField } from "@mui/material";
+import { useState } from "react";
 
-export default function OutlinedCard({ movie }) {
+export default function MovieCard({ movie, handleMovieUpdate, handleMovieDelete }) {
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [movieObj, setMovieObj] = useState(movie);
+    const [hasChanged, setHasChanged] = useState(false);
+
+    function handleInputChange(e, field) {
+      if(movieObj[field] != e.target.value){
+          const movie_updating = movieObj;
+          movie_updating[field] = e.target.value;
+          setMovieObj(movie_updating);
+          setHasChanged(true);
+      }
+  }
+
   return (
     <Box sx={{ minWidth: 275, margin: 1.5 }}>
-      <Card variant="outlined" className="movie" sx={{width: 275, height: 330}}>
+      <Card variant="outlined" className="movie" style={{width: 275, height: 390}}>
         <CardContent>
-          <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
-            {movie?.year}
-          </Typography>
-          <Typography variant="h5" component="div" sx={{overflow: "hidden"}}>
-            {movie?.title}
-          </Typography>
-          <Typography sx={{ mb: 2.5, mt: 2 }} color="text.secondary">
-            {movie?.genres}
-          </Typography>
-          <Typography variant="body2">
-            <b>Rating:</b> {movie?.Rating}/10
+          <div style={{ fontSize: 13 }} color="text.secondary">
+          {isEditing ? <TextField type="number" variant='outlined' size="small" defaultValue={movie.movie} onChange={(e) => (handleInputChange(e, "movie"))} /> : movie.movie}
+          </div>
+          <div style={{overflow: "hidden"}}>
+          {isEditing ? <TextField variant='outlined' size="small" defaultValue={movie.title} onChange={(e) => (handleInputChange(e, "title"))} /> : <b style={{fontSize: 22}}>{movie.title}</b>}
+          </div>
+          <div style={{ fontSize: 16, mt: 1.2 }} color="text.secondary">
+          {isEditing ? <TextField type="number" variant='outlined' size="small" defaultValue={movie.year} onChange={(e) => (handleInputChange(e, "year"))} /> : movie.year}
+          </div>
+          <div style={{ mb: 2.5, mt: 2 }} color="text.secondary">
+          {isEditing ? <TextField variant='outlined' size="small" defaultValue={movie.genres} onChange={(e) => (handleInputChange(e, "genres"))} /> : movie.genres}
+          </div>
+          <div>
+            <b>Rating:</b> {isEditing ? <TextField type="number" variant='outlined' size="small" defaultValue={movie.Rating} onChange={(e) => (handleInputChange(e, "Rating"))} /> : movie.Rating}
             <br />
-            <b>RottenTomato:</b> {movie?.RottenTomato}/100
-          </Typography>
+            <b>RottenTomato:</b> {isEditing ? <TextField type="number" variant='outlined' size="small" defaultValue={movie.RottenTomato} onChange={(e) => (handleInputChange(e, "RottenTomato"))} /> : movie.RottenTomato}
+          </div>
         </CardContent>
         <CardActions sx={{ marginLeft: 1 }}>
-          <Button size="small" variant="outlined">
-            Edit
-          </Button>
-          <Button size="small" variant="outlined">
-            Delete
-          </Button>
+        <Button variant='outlined'
+              onClick={() => {
+                if (isEditing) {
+                    setIsEditing(false);
+                    console.log("clicked save");
+                    if(hasChanged) {
+                        console.log("saving");
+                        handleMovieUpdate(movieObj);
+                    }
+                } else {
+                  setIsEditing(true);
+                  console.log("clicked edit, editing now");
+                }
+              }}
+            >{isEditing ? "💾" : "✏️"}</Button>
+            <Button variant="outlined" color="error" onClick={() => {
+                handleMovieDelete(movieObj["movie"]);
+            }}>❌</Button>
         </CardActions>
       </Card>
     </Box>

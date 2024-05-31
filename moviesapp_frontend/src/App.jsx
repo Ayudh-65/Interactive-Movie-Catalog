@@ -2,30 +2,63 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import CardContainer from "./components/CardContainer"
-import TableContainer from "./components/TableContainer"
 import ErrorPage from "./components/ErrorPage"
+import MoviesTable from "./components/MoviesTable";
 
-const API_ENDPOINT = "http://127.0.0.1:8000/movies"
+const API_ENDPOINT = "http://127.0.0.1:8000/movies/"
 
 export default function App() {
 
   const [movies, setMovies] = useState([]);
 
-  async function getMovies() {
+  const getMovies = async () => {
     await axios
       .get(API_ENDPOINT, {
         params: {
           limit: 20,
         },
       })
-      .then(function (response) {
+      .then((response) => {
         console.log(response.data);
         if (response.data.length >= 1) setMovies(response.data);
-        console.log(movies);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       });
+  }
+
+  const handleMovieUpdate = async (movieUpdated) => {
+    await axios.put(API_ENDPOINT + movieUpdated["movie"], movieUpdated)
+    .then((response) => {
+      if(response.status==200){
+        console.log("Update successful");
+        console.log(response.data);
+        getMovies();
+      }
+      else{
+        console.log("Failed to update movie:", response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+  const handleMovieDelete = async (movieId) => {
+    await axios.delete(API_ENDPOINT + movieId)
+    .then((response) => {
+      if(response.status==200){
+        console.log("Delete successful");
+        console.log(response.data);
+        getMovies();
+      }
+      else{
+        console.log("Failed to delete movie:", response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
   useEffect(() => {
@@ -36,14 +69,7 @@ export default function App() {
 
   return (
     <div className="app-container">
-
-      {/* <button onClick={(e) => {
-        e.preventDefault();
-        getMovies();
-      }}>Fetch</button> */}
-
-      {/* Temporary Router */}
-      {route == "/card" ? <CardContainer movies={movies} /> : (route == "/" ? <TableContainer movies = {movies} /> : <ErrorPage />)}
+      {route == "/card" ? <CardContainer movies = {movies} handleMovieUpdate={handleMovieUpdate} handleMovieDelete={handleMovieDelete} /> : (route == "/" ? <MoviesTable movies = {movies} handleMovieUpdate={handleMovieUpdate} handleMovieDelete={handleMovieDelete} /> : <ErrorPage />)}
     </div>
   )
 }

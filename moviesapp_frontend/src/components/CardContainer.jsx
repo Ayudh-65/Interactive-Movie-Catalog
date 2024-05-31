@@ -1,12 +1,11 @@
 /* eslint-disable react/prop-types */
-import OutlinedCard from "./CardComponent";
+import MovieCard from "./CardComponent";
 
-export default function CardContainer({ movies }) {
+export default function CardContainer({ movies, handleMovieUpdate, handleMovieDelete }) {
   return (
     <>
-      <h1>Cards Page</h1>
       <div className="card-container">
-        {movies.map((movie) => (<OutlinedCard movie={movie} key={movie.id} />))}
+        {movies.map((movie) => (<MovieCard movie={movie} key={movie.movie} handleMovieUpdate={handleMovieUpdate} handleMovieDelete={handleMovieDelete} />))}
       </div>
     </>
   );
