@@ -1,5 +1,5 @@
 # Interactive Movie Catalog
-An interactive movie catalog application providing an interactive movie browsing experience.
+An interactive movie catalog and database management application providing an interactive movie browsing experience.
 User-friendly and dynamic table and card views to modify, add, or delete records interactively.
 Inlcudes a powerful search feature for easy navigation and filtering.
 
