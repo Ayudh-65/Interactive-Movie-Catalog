@@ -23,4 +23,4 @@
 ```$npx vite```
 
 # Database (MongoDB)
-### Repo includes a script to port movie data from csv to database server
+Repo includes a script to port movie data from csv to database server
